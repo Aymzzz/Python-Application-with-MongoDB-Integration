@@ -33,10 +33,13 @@ try:
     available_functions = [name for name, obj in inspect.getmembers(CRUD_Operations) if inspect.isfunction(obj)]
         
     print("Available functions:") # print available functions
+    i=0
     for function_name in available_functions: 
-        print(function_name)
+        i += 1
+        print(f"{i}. {function_name}")
 
     selected_function = input("Select a function: ")
+    
     if selected_function in available_functions:
         
         if selected_function == "insert_data": # Prompt for additional arguments based on the selected function
