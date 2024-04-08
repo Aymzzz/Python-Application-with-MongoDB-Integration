@@ -42,11 +42,9 @@ try:
     
     if selected_function in available_functions:
         
-        if selected_function == "insert_data": # Prompt for additional arguments based on the selected function
-            data_path = input("Enter the path of the data file: ")
-            with open(data_path) as file:
-                data = json.load(file)
-            insert_data(data, selected_db, selected_collection) # we pass those arguments to the functios
+        if selected_function == "insert_data":
+            file_path = input("Enter the path of the data file: ")
+            insert_data(database, selected_collection, file_path)
         else:
             print("Invalid function name!")
     else:
