@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from CRUD_Operations import insert_data
+from CRUD_Operations import insert_data, read_data
 import CRUD_Operations
 import inspect
 import json
@@ -45,8 +45,16 @@ try:
         if selected_function == "insert_data":
             file_path = input("Enter the path of the data file: ")
             insert_data(database, selected_collection, file_path)
+            
+        elif selected_function == "read_data":
+            criteria = input("Enter the criteria: ")
+            read_data(database, selected_collection, criteria)
+            
+        elif selected_function == "":
+            pass
         else:
             print("Invalid function name!")
+        
     else:
         print("Function not found!")
 

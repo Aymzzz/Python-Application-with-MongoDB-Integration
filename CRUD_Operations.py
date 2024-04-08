@@ -24,6 +24,25 @@ try:
                 print("Invalid data format. Expected a list of documents.")
         except Exception as e:
             print(f"Error: {e}")
+#================================Create Data=======================================
+    def create_data(database, collection_name):
+        try:
+            collection = database[collection_name]
+            while True:
+                data = {}
+                for field in ['type_measure', 'sensor_name', 'time', 'dev_id', 'battery', 'temperature', 'humidity', 'solarpanel']:
+                    data[field] = input(f"Enter the value for {field}: ")
+
+                insert_result = collection.insert_one(data)
+                print("Data created successfully!")
+                
+                print("Inserted document ID:", insert_result.inserted_id)
+
+                choice = input("Do you want to insert another document? (y/n): ")
+                if choice.lower() != 'y':
+                    break
+        except Exception as e:
+            print(f"Error: {e}")
 #================================Read Data=======================================            
     def read_data(database, collection_name, criteria):
         try:
@@ -41,8 +60,6 @@ try:
         except Exception as e:
             print(f"Error: {e}")
 
-#================================Create Data=======================================
-    
 except (pymongo.errors.ConnectionFailure, pymongo.errors.ServerSelectionTimeoutError) as e:
     print(f"An error occurred while connecting to MongoDB: {e}")
     
