@@ -122,6 +122,10 @@ try:
             if choice == '1':
                 filter_query = input("Enter the filter query for the document to delete: ")
                 filter_query = json.loads(filter_query)
+                documents = list(collection.find(filter_query))
+                print("Matching documents:")
+                for document in documents:
+                    print(document)
                 delete_result = collection.delete_one(filter_query)
                 print("Data deleted successfully!")
                 print("Number of documents deleted:", delete_result.deleted_count)
