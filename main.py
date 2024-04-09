@@ -39,36 +39,51 @@ try:
         print(f"{i}. {function_name}")
 
     selected_function = input("Select a function: ")
-    
-    if selected_function in available_functions:
-        
-            # initial operation which is data insertion
-        if selected_function == "insert_data":
+
+    match selected_function:
+        case "insert_data":
             file_path = input("Enter the path of the data file: ")
             insert_data(database, selected_collection, file_path)
-            # create
-        elif selected_function == "create_data":
-            create_data(database, selected_collection)   
-            
-            # read      
-        elif selected_function == "read_data":
+        case "create_data":
+            create_data(database, selected_collection)
+        case "read_data":
             criteria = input("Enter the criteria: ")
             read_data(database, selected_collection, criteria)
-            
-            # update
-        elif selected_function == "update_data":
+        case "update_data":
             update_data(database, selected_collection)
-            
-            # delete
-        elif selected_function == "delete_data":
+        case "delete_data":
             delete_data(database, selected_collection)
-
-            
-        else:
+        case _:
             print("Invalid function name!")
+    
+    # if selected_function in available_functions:
         
-    else:
-        print("Function not found!")
+    #         # initial operation which is data insertion
+    #     if selected_function == "insert_data":
+    #         file_path = input("Enter the path of the data file: ")
+    #         insert_data(database, selected_collection, file_path)
+    #         # create
+    #     elif selected_function == "create_data":
+    #         create_data(database, selected_collection)   
+            
+    #         # read      
+    #     elif selected_function == "read_data":
+    #         criteria = input("Enter the criteria: ")
+    #         read_data(database, selected_collection, criteria)
+            
+    #         # update
+    #     elif selected_function == "update_data":
+    #         update_data(database, selected_collection)
+            
+    #         # delete
+    #     elif selected_function == "delete_data":
+    #         delete_data(database, selected_collection)
+            
+    #     else:
+    #         print("Invalid function name!")
+        
+    # else:
+    #     print("Function not found!")
 
 except Exception as e:
     print(f"An error occurred: {e}")

@@ -65,28 +65,36 @@ try:
     def update_data(database, collection_name):
         try:
             collection = database[collection_name]
+
+            # Prompt user to choose update operation
             print("Choose the update operation:")
             print("1. Update a single document")
             print("2. Update multiple documents")
             print("3. Replace a document")
             choice = input("Enter your choice (1/2/3): ")
 
+            # Perform the chosen update operation
             if choice == '1':
                 filter_query = input("Enter the filter query for the document to update: ")
+                filter_query = json.loads(filter_query)
                 update_query = input("Enter the update query: ")
+                update_query = json.loads(update_query)
                 update_result = collection.update_one(filter_query, update_query)
                 print("Data updated successfully!")
                 print("Number of documents matched:", update_result.matched_count)
                 print("Number of documents modified:", update_result.modified_count)
             elif choice == '2':
                 filter_query = input("Enter the filter query for multiple documents to update: ")
+                filter_query = json.loads(filter_query)
                 update_query = input("Enter the update query: ")
+                update_query = json.loads(update_query)
                 update_result = collection.update_many(filter_query, update_query)
                 print("Data updated successfully!")
                 print("Number of documents matched:", update_result.matched_count)
                 print("Number of documents modified:", update_result.modified_count)
             elif choice == '3':
                 filter_query = input("Enter the filter query for the document to replace: ")
+                filter_query = json.loads(filter_query)
                 replacement_data = {}
                 field_names = collection.find_one(filter_query).keys()
                 for field in field_names:
@@ -98,7 +106,7 @@ try:
                 print("Number of documents modified:", replace_result.modified_count)
             else:
                 print("Invalid choice. Please try again.")
-
+                
         except Exception as e:
             print(f"Error: {e}")
 #================================Delete Data======================================= 
