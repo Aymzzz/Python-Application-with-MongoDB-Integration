@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from CRUD_Operations import insert_data, read_data
+from CRUD_Operations import delete_data, insert_data, read_data, create_data, update_data
 import CRUD_Operations
 import inspect
 import json
@@ -42,16 +42,28 @@ try:
     
     if selected_function in available_functions:
         
+            # initial operation which is data insertion
         if selected_function == "insert_data":
             file_path = input("Enter the path of the data file: ")
             insert_data(database, selected_collection, file_path)
+            # create
+        elif selected_function == "create_data":
+            create_data(database, selected_collection)   
             
+            # read      
         elif selected_function == "read_data":
             criteria = input("Enter the criteria: ")
             read_data(database, selected_collection, criteria)
             
-        elif selected_function == "":
-            pass
+            # update
+        elif selected_function == "update_data":
+            update_data(database, selected_collection)
+            
+            # delete
+        elif selected_function == "delete_data":
+            delete_data(database, selected_collection)
+
+            
         else:
             print("Invalid function name!")
         
