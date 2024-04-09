@@ -44,15 +44,20 @@ try:
         case "insert_data":
             file_path = input("Enter the path of the data file: ")
             insert_data(database, selected_collection, file_path)
+            
         case "create_data":
             create_data(database, selected_collection)
+            
         case "read_data":
             criteria = input("Enter the criteria: ")
             read_data(database, selected_collection, criteria)
+            
         case "update_data":
             update_data(database, selected_collection)
+            
         case "delete_data":
             delete_data(database, selected_collection)
+            
         case _:
             print("Invalid function name!")
     

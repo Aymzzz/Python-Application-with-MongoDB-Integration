@@ -65,15 +65,14 @@ try:
     def update_data(database, collection_name):
         try:
             collection = database[collection_name]
-
-            # Prompt user to choose update operation
+        # all the possible "update" ops
             print("Choose the update operation:")
             print("1. Update a single document")
             print("2. Update multiple documents")
             print("3. Replace a document")
+            
             choice = input("Enter your choice (1/2/3): ")
 
-            # Perform the chosen update operation
             if choice == '1':
                 filter_query = input("Enter the filter query for the document to update: ")
                 filter_query = json.loads(filter_query)
@@ -83,6 +82,7 @@ try:
                 print("Data updated successfully!")
                 print("Number of documents matched:", update_result.matched_count)
                 print("Number of documents modified:", update_result.modified_count)
+                
             elif choice == '2':
                 filter_query = input("Enter the filter query for multiple documents to update: ")
                 filter_query = json.loads(filter_query)
@@ -92,6 +92,7 @@ try:
                 print("Data updated successfully!")
                 print("Number of documents matched:", update_result.matched_count)
                 print("Number of documents modified:", update_result.modified_count)
+                
             elif choice == '3':
                 filter_query = input("Enter the filter query for the document to replace: ")
                 filter_query = json.loads(filter_query)
@@ -120,11 +121,14 @@ try:
 
             if choice == '1':
                 filter_query = input("Enter the filter query for the document to delete: ")
+                filter_query = json.loads(filter_query)
                 delete_result = collection.delete_one(filter_query)
                 print("Data deleted successfully!")
                 print("Number of documents deleted:", delete_result.deleted_count)
+                
             elif choice == '2':
                 filter_query = input("Enter the filter query for multiple documents to delete: ")
+                filter_query = json.loads(filter_query)
                 delete_result = collection.delete_many(filter_query)
                 print("Data deleted successfully!")
                 print("Number of documents deleted:", delete_result.deleted_count)
