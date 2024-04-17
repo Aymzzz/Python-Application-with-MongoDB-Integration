@@ -161,8 +161,31 @@ try:
                 
         except Exception as e:
             print(f"Error: {e}")
+
+#================================Sorting Algorithms======================================= 
+
+    def sorting_algorithm(collection, field, order):
+        try:
+            document = collection.find_one() # retrieve one sample from the collection, the reason is to get the keys to display for the user.
+
+            if document:
+                available_fields = list(document.keys())
+                print("Available fields for sorting: ", available_fields)
+                field = input("Enter the field to sort by: ")
+
+                if field not in available_fields:
+                    print("Field '{}' is not available in the collection.".format(field))
+                    return []
                 
- 
+                data = list(collection.find().sort(field, order)) #sorting step.
+                return data
+            else:
+                print("No documents found in the collection.")
+                return []
+        except Exception as e:
+            print("An error occurred while sorting the data: ", str(e))
+            return []
+            
 except (pymongo.errors.ConnectionFailure, pymongo.errors.ServerSelectionTimeoutError) as e:
     print(f"An error occurred while connecting to MongoDB: {e}")
     

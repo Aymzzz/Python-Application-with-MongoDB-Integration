@@ -66,8 +66,17 @@ try:
         case "delete_data":
             delete_data(database, selected_collection)
             
+        case "sorting_algorithm":
+            field = input("Enter the field to sort by: ")
+            order = int(input("Enter the sorting order (1 for ascending, -1 for descending): "))
+            sorting_algorithm(collection, field, order)
         case _:
             print("Invalid function name!")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
+    
+    
     
     # if selected_function in available_functions:
         
@@ -97,6 +106,3 @@ try:
         
     # else:
     #     print("Function not found!")
-
-except Exception as e:
-    print(f"An error occurred: {e}")
