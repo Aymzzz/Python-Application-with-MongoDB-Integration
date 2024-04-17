@@ -9,6 +9,17 @@ try:
     client = MongoClient()  # normally it should be 'mongodb://localhost:27017/'
 
     print("Database connection has been established!")
+#================================Create Database & Collections=======================================   
+
+    def create_database(database_name):
+        try:
+            database = client[database_name]
+            print(f"Database {database_name} has been created!")
+        except errors.DuplicateKeyError:
+            print(f"Database {database_name} already exists!")
+        except Exception as e:
+            print(f"Error: {e}")
+
 #================================Insert Data=======================================    
     def insert_data(database, collection_name, file_path):
         try:
