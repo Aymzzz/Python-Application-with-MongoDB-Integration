@@ -10,7 +10,7 @@ try:
     # ======== Database selection/creation part ========= #
     
     selected_db = None
-    while not selected_db:  # asking the user to choose the database available or create a new one
+    while not selected_db:  # asking the user to choose the database available
         print("Available databases:")
         databases = client.list_database_names()
         i = 0
@@ -27,9 +27,9 @@ try:
     database = client[selected_db]
     print(f"Selected database: {selected_db}")
     
-    # ======== Collection selection/creation part =========
+    # ======== Collection selection/creation part ========= #
     selected_collection = None
-    while not selected_collection:  # asking the user to choose the corresponding collection or create a new one
+    while not selected_collection:  # asking the user to choose the corresponding collection
         print(f"Available collections in {selected_db}:")
         collections = database.list_collection_names()
         i = 0
@@ -44,7 +44,10 @@ try:
             create_collection(database, selected_collection)  # Create the new collection
 
     print(f"Selected collection: {selected_collection}")
-
+    
+    
+    # ======== Priting and prompting the user to choose an operation or function to perforn ========= #
+    
     available_functions = [name for name, obj in inspect.getmembers(CRUD_Operations) if inspect.isfunction(obj)]
 
     print("Available functions:")  # print available functions
