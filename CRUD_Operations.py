@@ -20,6 +20,15 @@ try:
         except Exception as e:
             print(f"Error: {e}")
 
+    def create_collection(database_name, collection_name):
+        try:
+            database = client[database_name]
+            collection = database[collection_name]
+            print(f"Collection {collection_name} has been created!")
+        except errors.DuplicateKeyError:
+            print(f"Collection {collection_name} already exists!")
+        except Exception as e:
+            print(f"Error: {e}")
 #================================Insert Data=======================================    
     def insert_data(database, collection_name, file_path):
         try:

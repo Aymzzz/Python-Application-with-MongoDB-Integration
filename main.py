@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from CRUD_Operations import delete_data, insert_data, read_data, create_data, update_data, create_database
+from CRUD_Operations import *
 import CRUD_Operations
 import inspect
 import json
@@ -44,6 +44,10 @@ try:
         case "create_database":
             database = input("Enter a name for your database: ")
             create_database(database)
+        
+        case "create_collection":
+            collection = input("Name your collection: ")
+            create_database(database, collection)
 
         case "insert_data":
             file_path = input("Enter the path of the data file: ")
