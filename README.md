@@ -4,6 +4,17 @@
 
 This project provides a command-line interface for performing CRUD (Create, Read, Update, Delete) operations on a MongoDB database. It allows you to select a database, choose a collection, and perform various operations on the collection.
 
+This project was done in an Ubuntu machine, therefore installing MongoDB and setting up is the first step of this project. Make sure that MongoDB service is up and running on your machine before running the code using the following:
+
+   ```bash
+      sudo systemctl start mongod
+   ```
+To check if it is already running, run the following:
+
+   ```bash
+      sudo systemctl status mongod
+   ```
+
 ## Prerequisites
 
 Before running the application, make sure you have the following prerequisites:
