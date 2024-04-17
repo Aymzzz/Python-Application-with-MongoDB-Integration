@@ -39,13 +39,11 @@ try:
         print(f"{i+1}. Create a new collection") # this is an option to let the user create a new collection
         selected_collection = input("Select a collection: ")
 
-
         if selected_collection == str(i+1):
             selected_collection = input("Enter a name for your new collection: ")
             create_collection(database, selected_collection)  # Create the new collection
-        else:
-            selected_collection = collections[int(selected_collection) - 1]  # select the corresponding collection
-
+    
+    selected_collection = database[selected_collection]
     print(f"Selected collection: {selected_collection}")
     
     # ======== Priting and prompting the user to choose an operation or function to perforn ========= #

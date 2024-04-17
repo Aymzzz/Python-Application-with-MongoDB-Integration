@@ -6,9 +6,44 @@ import inspect
 import json
 
 try:
-    client = MongoClient()  # normally it should be 'mongodb://localhost:27017/'
+    
+    client = MongoClient()
+    
+    MONGODB_HOST = 'localhost'
+    MONGODB_PORT = 27017
 
-    print("Database connection has been established!")
+# ======================Checking and Verifications=========================== #
+
+    def check_mongodb_status():
+        try:
+            client = MongoClient(MONGODB_HOST, MONGODB_PORT)
+            client.server_info()  # Test connection
+            client.close()
+            return "Database connection has been established!"
+        except Exception as e:
+            return f"Failed to connect to the database: {str(e)}"
+    
+    def get_databases():
+        try:
+            client = MongoClient(MONGODB_HOST, MONGODB_PORT)
+            databases = client.list_database_names()
+            client.close()
+            return databases
+        except Exception as e:
+            print(f"Error retrieving databases: {str(e)}")
+            return []
+        
+    
+    def get_collections(database_name):
+        try:
+            client = MongoClient(MONGODB_HOST, MONGODB_PORT)
+            database = client[database_name]
+            collections = database.list_collection_names()
+            client.close()
+            return collections
+        except Exception as e:
+            print(f"Error retrieving collections: {str(e)}")
+            return []
 #================================Create Database & Collections=======================================   
 
     def create_database(database_name):
