@@ -164,20 +164,27 @@ try:
 
 #================================Sorting Algorithms======================================= 
 
-    def sorting_algorithm(collection, field, order):
+    def sorting_algorithm(collection):
         try:
-            document = collection.find_one() # retrieve one sample from the collection, the reason is to get the keys to display for the user.
+    
+            if isinstance(collection, MongoClient):
+                print("Invalid argument. Please provide a collection object.")
+                return []
+            
+            document = collection.find_one()  # retrieve one sample from the collection, the reason is to get the keys to display for the user.
 
             if document:
                 available_fields = list(document.keys())
                 print("Available fields for sorting: ", available_fields)
+                
                 field = input("Enter the field to sort by: ")
-
+                order = int(input("Enter the sorting order (1 for ascending, -1 for descending): "))
+                
                 if field not in available_fields:
                     print("Field '{}' is not available in the collection.".format(field))
                     return []
-                
-                data = list(collection.find().sort(field, order)) #sorting step.
+
+                data = list(collection.find().sort(field, order))  # sorting step.
                 return data
             else:
                 print("No documents found in the collection.")

@@ -39,12 +39,14 @@ try:
         print(f"{i+1}. Create a new collection") # this is an option to let the user create a new collection
         selected_collection = input("Select a collection: ")
 
+
         if selected_collection == str(i+1):
             selected_collection = input("Enter a name for your new collection: ")
             create_collection(database, selected_collection)  # Create the new collection
+        else:
+            selected_collection = collections[int(selected_collection) - 1]  # select the corresponding collection
 
     print(f"Selected collection: {selected_collection}")
-    
     
     # ======== Priting and prompting the user to choose an operation or function to perforn ========= #
     
@@ -77,9 +79,7 @@ try:
             delete_data(database, selected_collection)
 
         case "sorting_algorithm":
-            field = input("Enter the field to sort by: ")
-            order = int(input("Enter the sorting order (1 for ascending, -1 for descending): "))
-            sorting_algorithm(collection, field, order)
+            sorting_algorithm(selected_collection)
 
         case _:
             print("Invalid function name!")
