@@ -34,31 +34,75 @@ Before running the application, make sure you have the following prerequisites:
 
 4. Make sure your MongoDB server is running.
 
-## Usage
-
-1. Open a terminal and navigate to the project directory.
-2. Run the following command to start the application:
-
-   ```bash
-   python main.py
-   ```
-
-3. The application will prompt you to select a database from the available options.
-4. After selecting a database, you will be asked to choose a collection.
-5. Once you have selected a collection, the application will display the available CRUD operations.
-6. Enter the number corresponding to the operation you want to perform.
-7. Follow the prompts and provide the required information for the selected operation.
-8. The application will execute the operation and display the results.
-
 ## Available Operations
 
-The following CRUD operations are available:
+### MongoDB Helper Functions (CRUD_Operations.py)
 
-1. Insert Data: Allows you to insert data from a JSON file into the selected collection.
-2. Create Data: Allows you to manually create a new document in the selected collection.
-3. Read Data: Allows you to retrieve data from the selected collection based on specified criteria.
-4. Update Data: Allows you to update documents in the selected collection.
-5. Delete Data: Allows you to delete documents from the selected collection.
+#### `check_mongodb_status()`
+This function checks the status of the MongoDB service and establishes a connection to the MongoDB server to test the connection. It returns a message indicating whether the database connection has been established or if there was an error.
+
+- Establishes a connection to the MongoDB server.
+- Tests the connection to the MongoDB server.
+- Returns a message indicating the status of the database connection.
+
+#### `get_databases()`
+This function retrieves the list of available databases from the MongoDB server. It returns a list of database names.
+
+- Retrieves the list of available databases.
+- Returns a list of database names.
+
+#### `get_collections(database_name)`
+Retrieves the list of collections within a specified database from the MongoDB server. It returns a list of collection names within the specified database.
+
+- Retrieves the list of collections within a specified database.
+- Returns a list of collection names.
+
+#### `create_database(database_name)`
+Creates a new database with the given name in the MongoDB server.
+
+- Creates a new database with the specified name.
+
+#### `create_collection(database_name, collection_name)`
+Creates a new collection within a specified database in the MongoDB server.
+
+- Creates a new collection within the specified database.
+- Provides the name of the collection to be created.
+
+#### `insert_data(database, collection_name, file_path)`
+Inserts data from a JSON file into a specified collection within a database in the MongoDB server.
+
+- Inserts data from a JSON file into a specified collection.
+- Requires the path to the JSON file containing the data to be inserted.
+
+#### `create_data(database, collection_name)`
+Allows the user to manually create and insert data into a specified collection within a database in the MongoDB server.
+
+- Allows manual creation and insertion of data into a collection.
+- Provides a user interface for data input.
+
+#### `read_data(database, collection_name, criteria)`
+Retrieves and displays data from a specified collection within a database based on optional filter criteria in JSON format in the MongoDB server.
+
+- Retrieves and displays data from a collection.
+- Supports optional filter criteria for data retrieval.
+
+#### `update_data(database, collection_name)`
+Allows the user to update documents in a specified collection within a database in the MongoDB server.
+
+- Provides options for updating documents in a collection.
+- Supports single document update, multiple document update, and document replacement.
+
+#### `delete_data(database, collection_name)`
+Allows the user to delete documents from a specified collection within a database in the MongoDB server.
+
+- Provides options for deleting documents from a collection.
+- Supports single document deletion and multiple document deletion.
+
+#### `sorting_algorithm(collection)`
+Sorts documents within a collection based on user-specified fields and sorting order in the MongoDB server.
+
+- Sorts documents within a collection.
+- Supports sorting by fields in ascending or descending order.
 
 ## Contributing
 
