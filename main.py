@@ -1,86 +1,132 @@
-from pymongo import MongoClient
-from CRUD_Operations import *
-import CRUD_Operations
-import inspect
+import os
 import json
+from CRUD_Operations import *
 
-try:
-    client = MongoClient()  # normally it should be 'mongodb://localhost:27017/'
+# This part is about preparing certain functions that will help us during the execution of the operations.
+def print_menu(): #prints the available functions
+    print("\nMenu:")
+    print("1. Insert JSON document into database")
+    print("2. CRUD Operations")
+    print("3. Sort Data")
+    print("0. Exit")
 
-    # ======== Database selection/creation part ========= #
+def check_mongodb_service():
+    #Check MongoDB service status 
+    status = os.system("systemctl is-active --quiet mongod")
+    if status == 0:
+        print("MongoDB service is running.")
+    else:
+        print("MongoDB service is not running. Starting the service...")
+        os.system("sudo systemctl start mongod") #to start the service for the user
+        print("MongoDB service has been started.")
+
+def list_databases(): # lists all databases
+    print("\nAvailable databases:")
+    databases = get_databases()
+    for i, db in enumerate(databases, start=1):
+        print(f"{i}. {db}")
+    return databases
+
+def list_collections(database_name): #lists all collections
+    print("\nAvailable collections:")
+    collections = get_collections(database_name)
+    for i, collection in enumerate(collections, start=1):
+        print(f"{i}. {collection}")
+    return collections
+
+def beautify_json(data): #cleans the output
+    for doc in data:
+        if '_id' in doc:
+            doc['_id'] = str(doc['_id'])
+    return json.dumps(data, indent=4)
     
-    selected_db = None
-    while not selected_db:  # asking the user to choose the database available
-        print("Available databases:")
-        databases = client.list_database_names()
-        i = 0
-        for db in databases:
-            i += 1
-            print(f"{i}. {db}")
-        print(f"{i+1}. Create a new database")
-        selected_db = input("Select a database: ")
-
-        if selected_db == str(i+1):
-            selected_db = input("Enter a name for your new database: ") #in case the user wants to create a new database
-            create_database(selected_db)
-
-    database = client[selected_db]
-    print(f"Selected database: {selected_db}")
+'''
+This upcoming part will be provide the user with a Menu full of possible operations to be performed on the database.
+These operations include: Creating, Reading, Updating and Deleting data as part of CRUD operations.
+Data insertion from a given JSON file is also included as an option to quickly populate the collection withint the database.
+The operations will prompt the user to enter the chosen database and collection.
+'''
+def main():
     
-    # ======== Collection selection/creation part ========= #
-    selected_collection = None
-    while not selected_collection:  # asking the user to choose the corresponding collection
-        print(f"Available collections in {selected_db}:")
-        collections = database.list_collection_names()
-        i = 0
-        for collection in collections:
-            i += 1
-            print(f"{i}. {collection}")
-        print(f"{i+1}. Create a new collection") # this is an option to let the user create a new collection
-        selected_collection = input("Select a collection: ")
-
-        if selected_collection == str(i+1):
-            selected_collection = input("Enter a name for your new collection: ")
-            create_collection(database, selected_collection)  # Create the new collection
+    check_mongodb_service() # checking the mongodb service if it is available
+    databases = list_databases() #lists the databases to give the user an idea of the existing ones.
     
-    selected_collection = database[selected_collection]
-    print(f"Selected collection: {selected_collection}")
+    #this next part will ask the user if they would like to create a new database or use an existing one;
+    create_db = input("\nDo you want to create a new database? (Type n if you want to choose an existing one) (y/n): ")
     
-    # ======== Priting and prompting the user to choose an operation or function to perforn ========= #
+    if create_db.lower() == "y":
+        print("\nCreating New Database:")
+        database_name = input("Enter the name of the new database: ")
+        create_database(database_name)
+        collection_name = input("Enter the name of the collection: ")
+        create_collection(database_name, collection_name)
+    else: 
+        print("Please provide the following information to perform the operations")
+        database_name = input("Enter the name of the database: ")
+        list_collections(database_name)
+        collection_name = input("Enter the name of the collection: ")
     
-    available_functions = [name for name, obj in inspect.getmembers(CRUD_Operations) if inspect.isfunction(obj)]
+    while True:
+        
+        print_menu()
+        
+        # Possible operations are, as mentioned above, the following:       
+        choice = input("Enter your choice: ")
+        
+        # and now for every choice its implementation from the CRUD_operations.py
+        if choice == "1":
+                file_path = input("Enter the path of the data file: ") 
+                database = MongoClient()[database_name]
+                insert_data(database, collection_name, file_path)
 
-    print("Available functions:")  # print available functions
-    i = 0
-    for function_name in available_functions:
-        i += 1
-        print(f"{i}. {function_name}")
+        elif choice == "2":
+            print("\nCRUD Operations:")
+            if not databases:
+                print("No databases available. Please create a database first.")
+            else:
+                print("1. Create Data")
+                print("2. Read Data")
+                print("3. Update Data")
+                print("4. Delete Data")
+                
+                crud_choice = input("Enter your choice: ")
+                
+                if crud_choice == "1":
+                    database = MongoClient()[database_name]
+                    create_data(database, collection_name)
+                    
+                elif crud_choice == "2":
+                    criteria = input("Enter the criteria (leave empty to retrieve all): ")
+                    database = MongoClient()[database_name]
+                    result = read_data(database, collection_name, criteria)
+                    if result:
+                        print("Retrieved data:")
+                        print(beautify_json(result))
+                        
+                elif crud_choice == "3":
+                    database = MongoClient()[database_name]
+                    update_data(database, collection_name)
+                    
+                elif crud_choice == "4":
+                    database = MongoClient()[database_name]
+                    delete_data(database, collection_name)
+                else:
+                    print("Invalid choice. Please try again.")
 
-    selected_function = input("Select a function: ")
+        elif choice == "3":
+            print("\nSorting Data:")
+            database = MongoClient()[database_name]
+            result = sorting_algorithm(database[collection_name])
+            if result:
+                print("Sorted data:")
+                print(beautify_json(result))
 
-    match selected_function:
-        case "insert_data":
-            file_path = input("Enter the path of the data file: ")
-            insert_data(database, selected_collection, file_path)
+        elif choice == "0": # once the user is done, they can exit.
+            print("Exiting...")
+            break
 
-        case "create_data":
-            create_data(database, selected_collection)
+        else:
+            print("Invalid choice. Please try again.")
 
-        case "read_data":
-            criteria = input("Enter the criteria: ")
-            read_data(database, selected_collection, criteria)
-
-        case "update_data":
-            update_data(database, selected_collection)
-
-        case "delete_data":
-            delete_data(database, selected_collection)
-
-        case "sorting_algorithm":
-            sorting_algorithm(selected_collection)
-
-        case _:
-            print("Invalid function name!")
-
-except Exception as e:
-    print(f"An error occurred: {e}")
+if __name__ == "__main__":
+    main()

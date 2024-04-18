@@ -104,10 +104,18 @@ try:
     def read_data(database, collection_name, criteria):
         try:
             collection = database[collection_name]
+            document = collection.find_one()  # retrieve one sample from the collection, the reason is to get the keys to display for the user.
+
+            if document:
+                available_fields = list(document.keys())
+                print("Available fields for sorting: ", available_fields)
+                
             query = {} # this will show everything
+            
             if criteria:
                 query = eval(criteria) # Example: criteria = "{'field': 'value'}"
             result = collection.find(query)
+            
             if result:
                 print("Retrieved data:")
                 for document in result:
