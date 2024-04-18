@@ -34,9 +34,7 @@ Before running the application, make sure you have the following prerequisites:
 
 4. Make sure your MongoDB server is running.
 
-## Available Operations
-
-### MongoDB Helper Functions (CRUD_Operations.py)
+## Available Operations - CRUD_Operations.py
 
 #### `check_mongodb_status()`
 This function checks the status of the MongoDB service and establishes a connection to the MongoDB server to test the connection. It returns a message indicating whether the database connection has been established or if there was an error.
@@ -103,6 +101,42 @@ Sorts documents within a collection based on user-specified fields and sorting o
 
 - Sorts documents within a collection.
 - Supports sorting by fields in ascending or descending order.
+
+## Main MongoDB Operations - Main.py
+
+The `main.py` file provides a user interface for performing various operations on a MongoDB database, including CRUD (Create, Read, Update, Delete) operations, data insertion, and sorting.
+
+#### Functionality Overview
+
+This script offers the following functionalities:
+
+- **Check MongoDB Service**: Ensures that the MongoDB service is running and starts it if necessary.
+- **List Databases**: Displays the available databases in the MongoDB server.
+- **List Collections**: Shows the collections within a selected database.
+- **Insert JSON Document**: Allows insertion of JSON data from a file into a specified collection.
+- **CRUD Operations**: Provides options for creating, reading, updating, and deleting data within a collection.
+- **Sorting Data**: Enables sorting of documents within a collection based on user-specified fields.
+- **Exit**: Terminates the program.
+
+#### Usage
+
+1. Upon execution, the script checks the MongoDB service status and lists the available databases.
+2. Users can choose to create a new database or select an existing one.
+3. After selecting a database and collection, users are presented with a menu of operations to choose from.
+4. Users can perform CRUD operations, insert data from a JSON file, or sort data within the selected collection.
+5. The program allows users to exit when they are finished.
+
+#### How to Run
+
+To execute the script, follow these steps:
+
+1. Ensure that MongoDB is installed and running.
+2. Run the `main.py` script using a Python interpreter.
+3. Follow the prompts to select a database, collection, and desired operation.
+
+#### Dependencies
+Make sure to use: 
+- `CRUD_Operations.py`: Module containing CRUD operation functions.
 
 ## Contributing
 
