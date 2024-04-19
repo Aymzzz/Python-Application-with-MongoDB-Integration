@@ -52,27 +52,46 @@ def main():
     databases = list_databases() #lists the databases to give the user an idea of the existing ones.
     
     #this next part will ask the user if they would like to create a new database or use an existing one;
-    create_db = input("\nDo you want to create a new database? (Type n if you want to choose an existing one) (y/n): ")
-    
+    create_db = input("\nDo you want to create a new database? (Type 'n' if you want to choose an existing one) (y/n): ")
+
     if create_db.lower() == "y":
         print("\nCreating New Database:")
         database_name = input("Enter the name of the new database: ")
         create_database(database_name)
         collection_name = input("Enter the name of the collection: ")
         create_collection(database_name, collection_name)
-    else: 
-        print("Please provide the following information to perform the operations")
-        database_name = input("Enter the name of the database: ")
-        list_collections(database_name)
-        collection_name = input("Enter the name of the collection: ")
+        
+    else:
+        # Validate the user's input for the database and collection names
+        
+        while True:
+
+            database_name = input("Enter the name of the database: ")
+            if database_name not in databases:
+                print(f"Database {database_name} does not exist. Please try again.")
+                continue
+            else:
+                collections = list_collections(database_name) #if the input correct then the collections show
+                
+                while True: #similarly, we do the same thing for collections
+                    collection_name = input("Enter the name of the collection: ")
+                    if collection_name not in collections:
+                        print(f"Collection {collection_name} does not exist in database {database_name}. Please try again.")
+                    else:
+                        break
     
-    while True:
+                if collection_name in collections:
+                    break
+    
+    while True: # Once everything is good, we can move to this step!!
         
         print_menu()
         
+        database = MongoClient()[database_name]    
+        
         # Possible operations are, as mentioned above, the following:       
         choice = input("Enter your choice: ")
-        
+   
         # and now for every choice its implementation from the CRUD_operations.py
         if choice == "1":
                 file_path = input("Enter the path of the data file: ") 
@@ -124,7 +143,6 @@ def main():
         elif choice == "0": # once the user is done, they can exit.
             print("Exiting...")
             break
-
         else:
             print("Invalid choice. Please try again.")
 

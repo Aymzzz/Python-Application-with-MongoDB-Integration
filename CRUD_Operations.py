@@ -64,6 +64,7 @@ try:
             print(f"Collection {collection_name} already exists!")
         except Exception as e:
             print(f"Error: {e}")
+            
 #================================Insert Data=======================================    
     def insert_data(database, collection_name, file_path):
         try:
@@ -199,6 +200,7 @@ try:
                 delete_result = collection.delete_many(filter_query)
                 print("Data deleted successfully!")
                 print("Number of documents deleted:", delete_result.deleted_count)
+                
             else:
                 print("Invalid choice. Please try again.")
                 
