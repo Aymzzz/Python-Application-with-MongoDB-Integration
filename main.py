@@ -55,13 +55,18 @@ def main():
     create_db = input("\nDo you want to create a new database? (Type 'n' if you want to choose an existing one) (y/n): ")
 
     if create_db.lower() == "y":
-        print("\nCreating New Database:")
-        database_name = input("Enter the name of the new database: ")
-        create_database(database_name)
-        collection_name = input("Enter the name of the collection: ")
-        create_collection(database_name, collection_name)
+        while True:
+            print("\nCreating New Database:")
+            database_name = input("Enter the name of the new database: ")
+            if database_name in databases:
+                print(f"database {database_name} already exists! Enter a new name.")
+            else:
+                create_database(database_name)
+                collection_name = input("Enter the name of the collection: ")
+                create_collection(database_name, collection_name)
+                break
         
-    else:
+    elif create_db.lower() == "n":
         # Validate the user's input for the database and collection names
         
         while True:
@@ -82,6 +87,8 @@ def main():
     
                 if collection_name in collections:
                     break
+    else:
+        print("Invalid choice. Please try again.")
     
     while True: # Once everything is good, we can move to this step!!
         
