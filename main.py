@@ -95,7 +95,6 @@ def main():
         # and now for every choice its implementation from the CRUD_operations.py
         if choice == "1":
                 file_path = input("Enter the path of the data file: ") 
-                database = MongoClient()[database_name]
                 insert_data(database, collection_name, file_path)
 
         elif choice == "2":
