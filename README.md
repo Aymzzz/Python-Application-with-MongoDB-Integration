@@ -21,6 +21,11 @@ Before running the application, make sure you have the following prerequisites:
 
 - Python 3.x installed on your system
 - `pymongo` library installed. You can install it using the command `pip install pymongo`
+- run the environment: 
+
+```bash
+   source env/bin/activate/
+```
 
 ## Getting Started
 
