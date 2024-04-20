@@ -117,23 +117,39 @@ def main():
                 crud_choice = input("Enter your choice: ")
                 
                 if crud_choice == "1":
-                    database = MongoClient()[database_name]
                     create_data(database, collection_name)
                     
                 elif crud_choice == "2":
-                    criteria = input("Enter the criteria (leave empty to retrieve all): ")
-                    database = MongoClient()[database_name]
+                    collection = database[collection_name]
+                    document = collection.find_one()  # retrieve one sample from the collection, the reason is to get the keys to display for the user.
+
+                    if document:
+                        available_fields = list(document.keys())
+                        print("Available fields: ", available_fields)
+                                            
+                    criteria = input("\n ==> Enter the criteria (leave empty to retrieve all): ")
                     result = read_data(database, collection_name, criteria)
                     if result:
                         print("Retrieved data:")
                         print(beautify_json(result))
                         
                 elif crud_choice == "3":
-                    database = MongoClient()[database_name]
+                    collection = database[collection_name]
+                    document = collection.find_one()  # retrieve one sample from the collection, the reason is to get the keys to display for the user.
+
+                    if document:
+                        available_fields = list(document.keys())
+                        print("Available fields: ", available_fields)
                     update_data(database, collection_name)
                     
                 elif crud_choice == "4":
-                    database = MongoClient()[database_name]
+                    collection = database[collection_name]
+                    document = collection.find_one()  # retrieve one sample from the collection, the reason is to get the keys to display for the user.
+
+                    if document:
+                        available_fields = list(document.keys())
+                        print("Available fields: ", available_fields)
+                        
                     delete_data(database, collection_name)
                 else:
                     print("Invalid choice. Please try again.")

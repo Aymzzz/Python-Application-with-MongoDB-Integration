@@ -105,11 +105,6 @@ try:
     def read_data(database, collection_name, criteria):
         try:
             collection = database[collection_name]
-            document = collection.find_one()  # retrieve one sample from the collection, the reason is to get the keys to display for the user.
-
-            if document:
-                available_fields = list(document.keys())
-                print("Available fields for sorting: ", available_fields)
                 
             query = {} # this will show everything
             
@@ -129,7 +124,7 @@ try:
     def update_data(database, collection_name):
         try:
             collection = database[collection_name]
-        # all the possible "update" ops
+            
             print("Choose the update operation:")
             print("1. Update a single document")
             print("2. Update multiple documents")
@@ -142,7 +137,7 @@ try:
                 filter_query = json.loads(filter_query)
                 update_query = input("Enter the update query: ")
                 update_query = json.loads(update_query)
-                update_result = collection.update_one(filter_query, update_query)
+                update_result = collection.update_one(filter_query, {'$set': update_query})  # Use $set operator
                 print("Data updated successfully!")
                 print("Number of documents matched:", update_result.matched_count)
                 print("Number of documents modified:", update_result.modified_count)
@@ -152,7 +147,7 @@ try:
                 filter_query = json.loads(filter_query)
                 update_query = input("Enter the update query: ")
                 update_query = json.loads(update_query)
-                update_result = collection.update_many(filter_query, update_query)
+                update_result = collection.update_many(filter_query, {'$set': update_query})  # Use $set operator
                 print("Data updated successfully!")
                 print("Number of documents matched:", update_result.matched_count)
                 print("Number of documents modified:", update_result.modified_count)
